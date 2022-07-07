@@ -1,7 +1,7 @@
+import { useState, useEffect } from 'react';
+
 import api from '../utils/api.js';
 import Card from './Card.js';
-
-import { useState, useEffect } from 'react';
 
 function Main( {onEditProfile, onAddPlace, onEditAvatar, onCardClick} ) {
   const [userName, setUserName] = useState('');
@@ -10,23 +10,16 @@ function Main( {onEditProfile, onAddPlace, onEditAvatar, onCardClick} ) {
   const [cards, setCards] = useState([]);
   
   useEffect(() => {
-    api.getUserInfo()
-      .then((res) =>{
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
+    api.getData()
+      .then(([userData, cardsData]) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+        setCards(cardsData);
       })
-  })
-  
-  function getCards() {
-    api.getInitialCards()
-    .then((res) => {
-      setCards(res);
-    })
-  }
-
-  useEffect(() => {
-    getCards();
+      .catch((err) => {
+        console.log(err);
+      })
   }, [])
 
   return (

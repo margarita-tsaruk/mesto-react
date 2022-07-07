@@ -22,7 +22,7 @@ function Card( {card, onCardClick} ) {
             type="button" 
             className="card__like-button"> 
           </button>
-          <p className="card__like-quantity"></p>
+          <p className="card__like-quantity">{card.likes.length}</p>
         </div>
       </div>
     </div>

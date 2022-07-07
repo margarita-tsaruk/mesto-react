@@ -8,7 +8,7 @@ import ImagePopup from './ImagePopup.js';
 
 function App() {
   const [isEditProfileOpen, setEditProfileOpen] = useState(false);
-  const [isEAddPlaceOpen, setAddPlaceOpen] = useState(false);
+  const [isAddPlaceOpen, setAddPlaceOpen] = useState(false);
   const [isEditAvatarOpen, setEditAvatarOpen] = useState(false);
   const [isImageOpen, setImageOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -35,7 +35,6 @@ function App() {
     setAddPlaceOpen(false);
     setEditAvatarOpen(false);
     setImageOpen(false)
-    setTimeout(()=> setSelectedCard({}), 1000)
   }
 
   function handleFormSubmit(event) {
@@ -91,7 +90,7 @@ function App() {
       <PopupWithForm 
         title="Новое место" 
         name="place"
-        isOpen={isEAddPlaceOpen}
+        isOpen={isAddPlaceOpen}
         onClose={closeAllPopups}
         onSubmitHandler={handleFormSubmit}
       >

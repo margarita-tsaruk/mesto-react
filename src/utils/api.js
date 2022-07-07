@@ -1,4 +1,4 @@
-import {utils} from './utils.js'
+import { config } from './config.js'
 
 class Api {
     constructor({url, token}) {
@@ -8,12 +8,12 @@ class Api {
   
     //Объявление приватного метода: получение ответа от сервера
     _getServerResponse(res) {
-      if(res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    }
+      if(res.ok) { 
+        return res.json(); 
+      } else { 
+        return Promise.reject(`Ошибка: ${res.status}`); 
+      } 
+    } 
   
     //Объявление публичного метода: отправить запрос серверу - загрузить карточки
     getInitialCards() {
@@ -24,9 +24,7 @@ class Api {
           'Content-Type': 'application/json'
        }
       })
-       .then((res) => {
-        return this._getServerResponse(res)
-      })
+      .then(this._getServerResponse)
     }
   
     //Объявление публичного метода: отправить запрос серверу - загрузить информацию о пользователе
@@ -37,11 +35,14 @@ class Api {
           'Content-Type': 'application/json'
         },
        })
-      .then((res) => {
-        return this._getServerResponse(res)
-      })
+      .then(this._getServerResponse)
     }
   
+    //Объявление публичного метода: выполнять загрузку всех данных
+    getData() {
+      return Promise.all([this.getUserInfo(), this.getInitialCards()])
+    }
+
     //Объявление публичного метода: отправить запрос серверу на обновление данных профиля пользователя
     editUserInfo(name, about) {
       return fetch (`${this.url}/users/me`, {
@@ -138,6 +139,6 @@ class Api {
     }
   }
 
-  const api = new Api(utils)
+  const api = new Api(config)
   
   export default api;
