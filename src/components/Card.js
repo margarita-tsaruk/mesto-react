@@ -1,7 +1,6 @@
-function Card(card) {
+function Card( {card, onCardClick} ) {
     function handleClick() {
-        card.onCardClick(card)
-        console.log(card)
+        onCardClick(card)
   }
   
   return (
@@ -14,14 +13,20 @@ function Card(card) {
           onClick={handleClick}
         />
         <h3 className="card__title">{card.name}</h3>
-        <button type="button" className="card__trash-button"></button>
+        <button 
+          type="button" 
+          className="card__trash-button">
+        </button>
         <div className="card__like-container">
-          <button type="button" className="card__like-button"></button>
+          <button 
+            type="button" 
+            className="card__like-button"> 
+          </button>
           <p className="card__like-quantity"></p>
         </div>
       </div>
     </div>
-    );
+  );
 }
 
 export default Card;

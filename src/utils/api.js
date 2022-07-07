@@ -44,9 +44,12 @@ class Api {
   
     //Объявление публичного метода: отправить запрос серверу на обновление данных профиля пользователя
     editUserInfo(name, about) {
-      return fetch (`${this._url}/users/me`, {
+      return fetch (`${this.url}/users/me`, {
         method: 'PATCH',
-        headers: this._headers,
+        headers: {
+          Authorization: this.token,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify ({
           name: name,
           about: about
@@ -59,9 +62,12 @@ class Api {
   
     //Объявление публичного метода: отправить запрос серверу на добавление новой карточки
     addCard(cardData) {
-      return fetch (`${this._url}/cards`, {
+      return fetch (`${this.url}/cards`, {
         method: 'POST',
-        headers: this._headers,
+        headers: {
+          Authorization: this.token,
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify ({
          name: cardData.name,
          link: cardData.link
@@ -74,9 +80,12 @@ class Api {
   
     //Объявление публичного метода: отправить запрос серверу на удаление своей карточки
     deleteCard(_id) {
-      return fetch (`${this._url}/cards/${_id}`, {
+      return fetch (`${this.url}/cards/${_id}`, {
         method: 'DELETE',
-        headers: this._headers,
+        headers: {
+          Authorization: this.token,
+          'Content-Type': 'application/json'
+        },
       })
       .then((res) => {
         return this._getServerResponse(res)
@@ -85,9 +94,12 @@ class Api {
   
     //Объявление публичного метода: отправить запрос серверу - поставить лайк карточки
     setCardLike(data) {
-      return fetch (`${this._url}/cards/${data._id}/likes`, {
+      return fetch (`${this.url}/cards/${data._id}/likes`, {
         method: 'PUT',
-        headers: this._headers,
+        headers: {
+          Authorization: this.token,
+          'Content-Type': 'application/json'
+        },
       })
       .then((res) => {
         return this._getServerResponse(res)
@@ -96,9 +108,12 @@ class Api {
   
     //Объявление публичного метода: отправить запрос серверу - удалить лайк карточки
     removeCardLike(data) {
-      return fetch (`${this._url}/cards/${data._id}/likes`, {
+      return fetch (`${this.url}/cards/${data._id}/likes`, {
         method: 'DELETE',
-        headers: this._headers,
+        headers: {
+          Authorization: this.token,
+          'Content-Type': 'application/json'
+        },
       })
       .then((res) => {
         return this._getServerResponse(res)

@@ -11,11 +11,11 @@ function Main( {onEditProfile, onAddPlace, onEditAvatar, onCardClick} ) {
   
   useEffect(() => {
     api.getUserInfo()
-    .then((res) =>{
-      setUserName(res.name);
-      setUserDescription(res.about);
-      setUserAvatar(res.avatar);
-    })
+      .then((res) =>{
+        setUserName(res.name);
+        setUserDescription(res.about);
+        setUserAvatar(res.avatar);
+      })
   })
   
   function getCards() {
@@ -30,37 +30,44 @@ function Main( {onEditProfile, onAddPlace, onEditAvatar, onCardClick} ) {
   }, [])
 
   return (
-      <div className="content">
-        <section className="profile">
-          <div className="profile__avatar"
+    <div className="content">
+      <section className="profile">
+        <div className="profile__avatar"
           onClick={onEditAvatar}
           style={{ backgroundImage: `url(${userAvatar})` }}
-          ></div>
-          <div className="profile__info">
-              <h1 className="profile__name">{userName}</h1>
-              <button type="button" className="profile__edit-button" onClick={onEditProfile}>
-              </button>
-              <p className="profile__job">{userDescription}</p>
-          </div>
-          <button type="button" className="profile__add-button" onClick={onAddPlace}>
+        >
+        </div>
+        <div className="profile__info">
+          <h1 className="profile__name">{userName}</h1>
+          <button 
+            type="button" 
+            className="profile__edit-button" 
+            onClick={onEditProfile}
+          >
           </button>
-        </section>
-        <section className="cards">
-            <div className="cards__container">
-              { cards.map((card) => {
-                return (
-                  <Card
-                  key={card._id}
-                  {...card}
-                  //card={card}
-                  onCardClick={onCardClick}
-                  />
-                )
-              })}
-            </div>
-        </section>
-      </div>
-    )
+            <p className="profile__job">{userDescription}</p>
+          </div>
+          <button 
+            type="button" 
+            className="profile__add-button" 
+            onClick={onAddPlace}>
+          </button>
+      </section>
+      <section className="cards">
+        <div className="cards__container">
+          { cards.map((card) => {
+            return (
+              <Card
+                key={card._id}
+                card={card}
+                onCardClick={onCardClick}
+              />
+            )
+          })}
+        </div>
+      </section>
+    </div>
+  )
 }
 
 export default Main;
