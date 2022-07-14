@@ -4,7 +4,7 @@ function ConfirmationPopup( {isOpen, onClose, cards, onDeleteCard} ) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(cards)
+    
     cards.map((card) =>  onDeleteCard(card))
   }
 

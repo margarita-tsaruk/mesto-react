@@ -171,7 +171,7 @@ function App() {
            <ConfirmationPopup 
             isOpen={isСonfirmationOpen}
             onClose={closeAllPopups}
-            card={cards}
+            cards={cards}
             onDeleteCard={handleCardDelete} 
           />
         </div>
