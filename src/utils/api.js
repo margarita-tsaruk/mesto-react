@@ -34,7 +34,7 @@ class Api {
           Authorization: this.token,
           'Content-Type': 'application/json'
         },
-       })
+      })
       .then(this._getServerResponse)
     }
   
@@ -44,7 +44,7 @@ class Api {
     }
 
     //Объявление публичного метода: отправить запрос серверу на обновление данных профиля пользователя
-    editUserInfo(name, about) {
+    setUserInfo(name, about) {
       return fetch (`${this.url}/users/me`, {
         method: 'PATCH',
         headers: {
@@ -80,8 +80,8 @@ class Api {
     }
   
     //Объявление публичного метода: отправить запрос серверу на удаление своей карточки
-    deleteCard(_id) {
-      return fetch (`${this.url}/cards/${_id}`, {
+    deleteCard(card) {
+      return fetch (`${this.url}/cards/${card._id}`, {
         method: 'DELETE',
         headers: {
           Authorization: this.token,
@@ -92,37 +92,36 @@ class Api {
         return this._getServerResponse(res)
       })
     }
-  
+   
     //Объявление публичного метода: отправить запрос серверу - поставить лайк карточки
-    setCardLike(data) {
-      return fetch (`${this.url}/cards/${data._id}/likes`, {
-        method: 'PUT',
-        headers: {
-          Authorization: this.token,
-          'Content-Type': 'application/json'
-        },
+    changeLikeCardStatus(card, isLiked) {
+      if(isLiked) {
+        return fetch (`${this.url}/cards/${card._id}/likes`, {
+          method: 'PUT',
+          headers: {
+            Authorization: this.token,
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((res) => {
+          return this._getServerResponse(res)
+        })
+      } else {
+      return fetch (`${this.url}/cards/${card._id}/likes`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: this.token,
+              'Content-Type': 'application/json'
+            }
       })
       .then((res) => {
         return this._getServerResponse(res)
       })
-    }
-  
-    //Объявление публичного метода: отправить запрос серверу - удалить лайк карточки
-    removeCardLike(data) {
-      return fetch (`${this.url}/cards/${data._id}/likes`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: this.token,
-          'Content-Type': 'application/json'
-        },
-      })
-      .then((res) => {
-        return this._getServerResponse(res)
-      })
-    }
-  
+     }
+   }
+
     //Объявление публичного метода: отправить запрос - обновить аватар
-    changeAvatar(link) {
+    setUserAvatar(link) {
       return fetch (`${this.url}/users/me/avatar`, {
         headers: {
             Authorization: this.token,
