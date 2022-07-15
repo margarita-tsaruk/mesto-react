@@ -45,7 +45,8 @@ function App() {
     setEditAvatarOpen(true);
   }
 
-  function handleTrashButtonClick() {
+  function handleTrashButtonClick(card) {
+    setSelectedCard(card);
     setСonfirmationOpen(true);
   }
 
@@ -171,7 +172,8 @@ function App() {
            <ConfirmationPopup 
             isOpen={isСonfirmationOpen}
             onClose={closeAllPopups}
-            cards={cards}
+            card={selectedCard}
+            setSelectedCard={setSelectedCard}
             onDeleteCard={handleCardDelete} 
           />
         </div>

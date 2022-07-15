@@ -1,12 +1,20 @@
+import { useEffect } from 'react';
+
 import PopupWithForm from './PopupWithForm';
 
-function ConfirmationPopup( {isOpen, onClose, cards, onDeleteCard} ) {
+function ConfirmationPopup( {isOpen, onClose, card, setSelectedCard, onDeleteCard} ) {
 
-  function handleSubmit(event) {
-    event.preventDefault();
+    useEffect(() => {
+        if(isOpen) {
+            setSelectedCard(card)
+        }
+      }, [card, isOpen, setSelectedCard]);
     
-    cards.map((card) =>  onDeleteCard(card))
-  }
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      onDeleteCard(card)
+    }
 
   return (
     <PopupWithForm
