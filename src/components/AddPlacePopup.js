@@ -1,46 +1,46 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useForm } from '../hooks/useForm.js';
 
 import PopupWithForm from './PopupWithForm.js';
 
-function AddPlacePopup( {isOpen, onClose, onAddPlace} ) {
-  const nameRef = useRef('');
-  const linkRef = useRef('');
+function AddPlacePopup( props ) {
+  const { values, handleChange, setValues } = useForm({});
 
   function handleSubmit(event) {
     event.preventDefault();
     
-    onAddPlace({
-      name: nameRef.current.value,
-      link: linkRef.current.value,
+    props.onAddPlace({
+      name: values.name,
+      link: values.link
     });
   }
 
   useEffect(() => {
-    if(isOpen) {
-        nameRef.current.value = ''
-        linkRef.current.value = ''
+    if(props.isOpen) {
+      setValues({});
     }
-  }, [isOpen]);
+  }, [props.isOpen, setValues]);
 
   return (
     <PopupWithForm
       name="place"
       title="Новое место" 
       button="Сохранить"
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={props.isOpen}
+      onClose={props.onClose}
       onSubmit={handleSubmit}
     >
       <input
         id="title-input"
         type="text"
-        name="place-name"
+        name="name"
         className="popup__input popup__input_type_title"
         placeholder="Название"
         minLength="2"
         maxLength="30"
         required
-        ref={nameRef}
+        value={values.name || ''}
+        onChange={handleChange}
       />
         <span 
           className="popup__error popup__error_top" 
@@ -49,11 +49,12 @@ function AddPlacePopup( {isOpen, onClose, onAddPlace} ) {
         <input
           id="link-input"
           type="url"
-          name="place-link"
+          name="link"
           className="popup__input popup__input_type_link"
           placeholder="Ссылка на картинку"
           required
-          ref={linkRef}
+          value={values.link || ''}
+          onChange={handleChange}
         />
         <span 
           className="popup__error popup__error_bottom" 

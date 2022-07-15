@@ -12,14 +12,15 @@ import ConfirmationPopup from './ConfirmationPopup.js';
 import api from '../utils/api.js';
 
 function App() {
-  const [isEditProfileOpen, setEditProfileOpen] = useState(false);
-  const [isAddPlaceOpen, setAddPlaceOpen] = useState(false);
-  const [isEditAvatarOpen, setEditAvatarOpen] = useState(false);
-  const [isImageOpen, setImageOpen] = useState(false);
-  const [isСonfirmationOpen, setСonfirmationOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isСonfirmationPopupOpen, setIsСonfirmationPopupOpen] = useState(false);
+  const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || isImagePopupOpen || isСonfirmationPopupOpen
 
   const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   
   useEffect(() => {
@@ -34,34 +35,48 @@ function App() {
   }, [])
 
   function handleEditProfileClick() {
-    setEditProfileOpen(true);
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setAddPlaceOpen(true);
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleEditAvatarClick() {
-    setEditAvatarOpen(true);
+    setIsEditAvatarPopupOpen(true);
   }
 
   function handleTrashButtonClick(card) {
     setSelectedCard(card);
-    setСonfirmationOpen(true);
+    setIsСonfirmationPopupOpen(true);
   }
 
   function handleCardClick(card) {
     setSelectedCard(card);
-    setImageOpen(true);
+    setIsImagePopupOpen(true);
   }
 
   function closeAllPopups() {
-    setEditProfileOpen(false);
-    setAddPlaceOpen(false);
-    setEditAvatarOpen(false);
-    setImageOpen(false)
-    setСonfirmationOpen(false)
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsImagePopupOpen(false)
+    setIsСonfirmationPopupOpen(false)
   }
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if(evt.key === 'Escape') {
+        closeAllPopups();
+      }
+    }
+    if(isOpen) {
+      document.addEventListener('keydown', closeByEscape);
+      return () => {
+        document.removeEventListener('keydown', closeByEscape);
+      }
+    }
+  }, [isOpen]) 
 
   function handleUpdateUser(value) {
     api.setUserInfo(value.name, value.about)
@@ -150,27 +165,27 @@ function App() {
           />
           <Footer />
           <EditProfilePopup
-            isOpen={isEditProfileOpen}
+            isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
           <AddPlacePopup 
-            isOpen={isAddPlaceOpen}
+            isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlace}
           />
           <EditAvatarPopup
-            isOpen={isEditAvatarOpen}
+            isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar} 
           />
           <ImagePopup 
-            isOpen={isImageOpen}
+            isOpen={isImagePopupOpen}
             card={selectedCard}
             onClose={closeAllPopups}
           />
            <ConfirmationPopup 
-            isOpen={isСonfirmationOpen}
+            isOpen={isСonfirmationPopupOpen}
             onClose={closeAllPopups}
             card={selectedCard}
             setSelectedCard={setSelectedCard}
